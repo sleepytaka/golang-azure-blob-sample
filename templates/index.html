@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Sample App</title>
+</head>
+<body>
+<h1>ファイルアップロードテスト</h1>
+<form method="post" action="/upload" enctype="multipart/form-data">
+    <p>
+        <input type="file" name="file1" id="upload_files" multiple="multiple">
+    </p>
+    <p>
+        <input type="submit" name="submit" value="アップロード">
+    </p>
+</form>
+<table>
+    <tr>
+        <td>name</td>
+        <td>Size</td>
+    </tr>
+    {{ range .items }}
+        <tr>
+            <td>{{ .Name }}</td>
+            <td>{{ .Size }}</td>
+            <td>
+                <form method="post" action="/delete">
+                    <button type="submit">削除</button>
+                    <input type="hidden" name="name" value="{{.Name}}">
+                </form>
+            </td>
+        </tr>
+    {{ end }}
+</table>
+</body>
+</html>

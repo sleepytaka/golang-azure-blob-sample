@@ -1,0 +1,12 @@
+FROM golang:latest
+RUN go get -u github.com/Azure/azure-storage-blob-go/azblob && \
+  go get -u github.com/gin-gonic/gin
+COPY . /go/app
+WORKDIR /go/app
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main .
+
+FROM alpine:latest
+RUN apk --no-cache add ca-certificates
+WORKDIR /root/
+COPY --from=0 /go/app/ .
+CMD ["./main"]
